@@ -1,0 +1,48 @@
+{
+  "histogram": {
+    "x": "%axis_selector",
+    "color": "%axis_selector",
+    "histnorm": ["", "percent", "probability", "density", "probability density"],
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "bar chart": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
+    "base": "%axis_selector",
+    "orientation": ["", "h", "v"],
+    "barmode": ["", "group", "overlay", "relative"],
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "line chart": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
+    "line_dash": "%axis_selector",
+    "orientation": ["", "h", "v"],
+    "line_shape": ["", "linear", "spline"],
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "scatter plot": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "symbol": "%axis_selector",
+    "size": "%axis_selector",
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "scatter matrix": {
+    "color": "%axis_selector",
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "pie chart": {
+    "values": "%axis_selector",
+    "names": "%axis_selector",
+    "color": "%axis_selector",
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  }
+}

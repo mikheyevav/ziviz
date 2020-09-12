@@ -1,0 +1,2 @@
+recursive-include ziviz/static *.*
+include ziviz.json
