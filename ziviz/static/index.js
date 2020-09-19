@@ -1,4 +1,4 @@
-define(["@jupyter-widgets/base"], function(__WEBPACK_EXTERNAL_MODULE_2__) { return /******/ (function(modules) { // webpackBootstrap
+define(["@jupyter-widgets/base"], function(__WEBPACK_EXTERNAL_MODULE_3__) { return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -69,16 +69,16 @@ define(["@jupyter-widgets/base"], function(__WEBPACK_EXTERNAL_MODULE_2__) { retu
 
 // Export widget models and views, and the npm package version number.
 module.exports = __webpack_require__(1);
-module.exports['version'] = __webpack_require__(6).version;
+module.exports['version'] = __webpack_require__(7).version;
 
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var widgets = __webpack_require__(2);
-var $ = __webpack_require__(3)
-const viz_types = __webpack_require__(4);
+/* WEBPACK VAR INJECTION */(function(global) {var widgets = __webpack_require__(3);
+var $ = __webpack_require__(4)
+const viz_types = __webpack_require__(5);
 
 let create_selector_from_array = function (ar){
   let s = $('<select>')
@@ -117,6 +117,8 @@ let update_header = function (el, model) {
         .addClass("ziviz_option_container")
         .css("display","inline")
         .css("margin-right", "5px")
+        .css("margin-top", "2px")
+        .css("margin-bottom", "2px")
         .append(opt_name+":");
 
       var arr= ( (opt_vals==="%axis_selector") ? axis_list : opt_vals )
@@ -182,8 +184,8 @@ var ZivizModel = widgets.DOMWidgetModel.extend({
         _view_name : 'ZivizView',
         _model_module : 'ziviz',
         _view_module : 'ziviz',
-        _model_module_version : '0.1.0',
-        _view_module_version : '0.1.0'
+        _model_module_version : '0.1.2',
+        _view_module_version : '0.1.2'
     })
 });
 
@@ -192,7 +194,15 @@ var ZivizView = widgets.DOMWidgetView.extend({
 
   render: function() {
     this.model.on('change:plotly_js', this.plotly_js_changed, this);
-    this.model.set("plotly_js_req", typeof Plotly == "undefined" ? "y" : "n" );
+    // initialise plotly
+    // valid values are lab nb
+    let v = "";
+    if ( typeof global.require == "undefined" ){
+      v = typeof global.Plotly == "undefined" ? "lab_inc" : "lab_not_inc" 
+    } else {
+      v = "nb";
+    }
+    this.model.set("plotly_js_req", v);
     this.model.save_changes();
   },
 
@@ -203,9 +213,7 @@ var ZivizView = widgets.DOMWidgetView.extend({
     $(s).appendTo( canv );
   },
   plotly_js_changed: function() {
-    if (this.model.get('plotly_js_req')=="y"){
-      new Function (this.model.get('plotly_js'))();
-    }
+    new Function (this.model.get('plotly_js'))();
     get_header_html(this.el, this.model);
     this.model.on('change:viz', this.viz_changed, this);
   },
@@ -216,15 +224,43 @@ module.exports = {
     ZivizView: ZivizView
 };
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11103,10 +11139,10 @@ return jQuery;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var viz_types = __webpack_require__(5);
+var viz_types = __webpack_require__(6);
 
 let v = Object.keys(viz_types);
 v.forEach( (i) => {
@@ -11117,16 +11153,16 @@ module.exports = viz_types
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = {"histogram":{"x":"%axis_selector","color":"%axis_selector","histnorm":["","percent","probability","density","probability density"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"bar chart":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector","base":"%axis_selector","orientation":["","h","v"],"barmode":["","group","overlay","relative"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"line chart":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector","line_dash":"%axis_selector","orientation":["","h","v"],"line_shape":["","linear","spline"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"scatter plot":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","symbol":"%axis_selector","size":"%axis_selector","template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"scatter matrix":{"color":"%axis_selector","template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"pie chart":{"values":"%axis_selector","names":"%axis_selector","color":"%axis_selector","template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]}}
-
-/***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"ziviz","version":"0.1.0","description":"Ziviz","author":"mikheyevav","main":"lib/index.js","repository":{"type":"git","url":"https://github.com/mikheyevav/ziviz.git"},"keywords":["jupyter","widgets","ipywidgets","jupyterlab-extension"],"files":["lib/**/*.js","lib/**/*.json","dist/*.js"],"scripts":{"clean":"rimraf dist/","prepublish":"webpack","build":"webpack","watch":"webpack --watch --mode=development","test":"echo \"Error: no test specified\" && exit 1"},"devDependencies":{"rimraf":"^2.6.1","webpack":"^3.5.5"},"dependencies":{"@jupyter-widgets/base":"^1.1 || ^2 || ^3","jquery":"^3.4.1"},"jupyterlab":{"extension":"lib/labplugin"}}
+module.exports = {"histogram":{"x":"%axis_selector","color":"%axis_selector","histnorm":["","percent","probability","density","probability density"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"bar chart":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector","base":"%axis_selector","orientation":["","h","v"],"barmode":["","group","overlay","relative"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"line chart":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector","line_dash":"%axis_selector","orientation":["","h","v"],"line_shape":["","linear","spline"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"scatter plot":{"x":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector","symbol":"%axis_selector","size":"%axis_selector","marginal_x":["","rug","box","violin","histogram"],"marginal_y":["","rug","box","violin","histogram"],"trendline":["","ols","lowess"],"template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"scatter matrix":{"color":"%axis_selector","template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"pie chart":{"values":"%axis_selector","names":"%axis_selector","color":"%axis_selector","template":["","ggplot2","seaborn","simple_white","plotly","plotly_white","plotly_dark","presentation","xgridoff","ygridoff","gridon"]},"timeline":{"x_start":"%axis_selector","x_end":"%axis_selector","y":"%axis_selector","color":"%axis_selector","facet_row":"%axis_selector","facet_col":"%axis_selector"}}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = {"name":"ziviz","version":"0.1.2","description":"Ziviz","author":"mikheyevav","main":"lib/index.js","repository":{"type":"git","url":"https://github.com/mikheyevav/ziviz.git"},"keywords":["jupyter","widgets","ipywidgets","jupyterlab-extension"],"files":["lib/**/*.js","lib/**/*.json","dist/*.js"],"scripts":{"clean":"rimraf dist/","prepublish":"webpack","build":"webpack","watch":"webpack --watch --mode=development","test":"echo \"Error: no test specified\" && exit 1"},"devDependencies":{"rimraf":"^2.6.1","webpack":"^3.5.5"},"dependencies":{"@jupyter-widgets/base":"^1.1 || ^2 || ^3","jquery":"^3.4.1"},"jupyterlab":{"extension":"lib/labplugin"}}
 
 /***/ })
 /******/ ])});;

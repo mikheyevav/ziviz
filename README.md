@@ -1,6 +1,7 @@
 Ziviz
 
-Exploratory data analysis tool for Jupyter.
+Exploratory data analysis tool for Jupyter. Ziviz supports both Jupyter lab and notebook. It is based on [Plotly](https://plotly.com) library.
+
 
 ![](ziviz.gif)
 
@@ -19,5 +20,8 @@ Installation
 
   or
     $ jupyter labextension install ziviz @jupyter-widgets/jupyterlab-manager jupyterlab-dash
+
+  For jupyter notebook:
+    $ jupyter nbextension install --py --sys-prefix ziviz
 
 

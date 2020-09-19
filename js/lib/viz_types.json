@@ -31,8 +31,13 @@
     "x": "%axis_selector",
     "y": "%axis_selector",
     "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
     "symbol": "%axis_selector",
     "size": "%axis_selector",
+    "marginal_x": ["", "rug", "box", "violin", "histogram"],
+    "marginal_y": ["", "rug", "box", "violin", "histogram"],
+    "trendline": ["", "ols", "lowess"], 
     "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
   },
   "scatter matrix": {
@@ -44,5 +49,13 @@
     "names": "%axis_selector",
     "color": "%axis_selector",
     "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+  },
+  "timeline": {
+    "x_start": "%axis_selector",
+    "x_end": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector"
   }
 }

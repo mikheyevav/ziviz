@@ -39,6 +39,8 @@ let update_header = function (el, model) {
         .addClass("ziviz_option_container")
         .css("display","inline")
         .css("margin-right", "5px")
+        .css("margin-top", "2px")
+        .css("margin-bottom", "2px")
         .append(opt_name+":");
 
       var arr= ( (opt_vals==="%axis_selector") ? axis_list : opt_vals )
@@ -104,8 +106,8 @@ var ZivizModel = widgets.DOMWidgetModel.extend({
         _view_name : 'ZivizView',
         _model_module : 'ziviz',
         _view_module : 'ziviz',
-        _model_module_version : '0.1.0',
-        _view_module_version : '0.1.0'
+        _model_module_version : '0.1.2',
+        _view_module_version : '0.1.2'
     })
 });
 
@@ -114,7 +116,15 @@ var ZivizView = widgets.DOMWidgetView.extend({
 
   render: function() {
     this.model.on('change:plotly_js', this.plotly_js_changed, this);
-    this.model.set("plotly_js_req", typeof Plotly == "undefined" ? "y" : "n" );
+    // initialise plotly
+    // valid values are lab nb
+    let v = "";
+    if ( typeof global.require == "undefined" ){
+      v = typeof global.Plotly == "undefined" ? "lab_inc" : "lab_not_inc" 
+    } else {
+      v = "nb";
+    }
+    this.model.set("plotly_js_req", v);
     this.model.save_changes();
   },
 
@@ -125,9 +135,7 @@ var ZivizView = widgets.DOMWidgetView.extend({
     $(s).appendTo( canv );
   },
   plotly_js_changed: function() {
-    if (this.model.get('plotly_js_req')=="y"){
-      new Function (this.model.get('plotly_js'))();
-    }
+    new Function (this.model.get('plotly_js'))();
     get_header_html(this.el, this.model);
     this.model.on('change:viz', this.viz_changed, this);
   },
