@@ -141,7 +141,7 @@ setup_args = dict(
     ],
     install_requires=[
         'ipywidgets>=7.0.0',
-        'jupyterlab',
+        'jupyterlab>=3.0',
         'pandas',
         'plotly',
         'traitlets'

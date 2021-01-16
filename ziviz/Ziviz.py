@@ -44,8 +44,8 @@ class ZivizWidget(widgets.DOMWidget):
     _view_module = Unicode('ziviz').tag(sync=True)
     _model_module = Unicode('ziviz').tag(sync=True)
 
-    _view_module_version = Unicode('^0.1.0').tag(sync=True)
-    _model_module_version = Unicode('^0.1.0').tag(sync=True)
+    _view_module_version = Unicode('^0.1.3').tag(sync=True)
+    _model_module_version = Unicode('^0.1.3').tag(sync=True)
 
 
     def __init__(self, arg):
@@ -66,6 +66,8 @@ class ZivizWidget(widgets.DOMWidget):
                     return self.df.index
                 return l[0]
             else:
+                if t=="color_discrete_sequence" and l[0]!="":
+                    return getattr(px.colors.qualitative, l[0])
                 return l[0] if l[0]!="" else None
         else:
             return ""

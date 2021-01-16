@@ -12,14 +12,7 @@ Installation
 
 2. 
   For jupyter lab:
- 
-  In extension manager install
-  * ziviz
-  * @jupyter-widgets/jupyterlab-manager
-  * jupyterlab-dash
-
-  or
-    $ jupyter labextension install ziviz @jupyter-widgets/jupyterlab-manager jupyterlab-dash
+   $ jupyter labextension install jupyterlab-plotly
 
   For jupyter notebook:
     $ jupyter nbextension install --py --sys-prefix ziviz
