@@ -93,7 +93,7 @@ class ZivizWidget(widgets.DOMWidget):
         for k in viz_types[v_type].keys():
             vals = self.get_val(viz_specs, k, viz_types[v_type][k]=="%axis_selector") 
             args[k] = vals
-
+        # refactor. Use function object
         if v_type=="histogram":
             self.viz = px.histogram(self.df, **args ).to_html(**self.inc)
             self.viz_code = self.viz_code_template.format(viz_name="histogram", viz_params=ser_args(args) )

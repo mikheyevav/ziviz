@@ -1,5 +1,7 @@
 var widgets = require('@jupyter-widgets/base');
 var $ = require("jquery")
+
+let init_module = require("./init.js");
 const viz_types = require("./viz_types.js");
 
 let create_selector_from_array = function (ar){
@@ -115,17 +117,10 @@ var ZivizModel = widgets.DOMWidgetModel.extend({
 var ZivizView = widgets.DOMWidgetView.extend({
 
   render: function() {
-    this.model.on('change:plotly_js', this.plotly_js_changed, this);
-    // initialise plotly
-    // valid values are lab nb
-    let v = "";
-    if ( typeof global.require == "undefined" ){
-      v = typeof global.Plotly == "undefined" ? "lab_inc" : "lab_not_inc" 
-    } else {
-      v = "nb";
-    }
-    this.model.set("plotly_js_req", v);
-    this.model.save_changes();
+    init_module.inject_js(this.model);
+    console.log("after inject");
+    get_header_html(this.el, this.model);
+    this.model.on('change:viz', this.viz_changed, this);
   },
 
   viz_changed: function() {
@@ -133,12 +128,7 @@ var ZivizView = widgets.DOMWidgetView.extend({
     let canv = $(this.el).find(".ziviz_canvas");
     canv.empty();
     $(s).appendTo( canv );
-  },
-  plotly_js_changed: function() {
-    new Function (this.model.get('plotly_js'))();
-    get_header_html(this.el, this.model);
-    this.model.on('change:viz', this.viz_changed, this);
-  },
+  }
 });
 
 module.exports = {
