@@ -118,7 +118,6 @@ var ZivizView = widgets.DOMWidgetView.extend({
 
   render: function() {
     init_module.inject_js(this.model);
-    console.log("after inject");
     get_header_html(this.el, this.model);
     this.model.on('change:viz', this.viz_changed, this);
   },

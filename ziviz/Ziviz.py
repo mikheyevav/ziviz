@@ -27,6 +27,16 @@ def ser_args(d: dict)->str:
 
 viz_types = load_viz()
 
+viz_lookup = {
+        "histogram": px.histogram,
+        "bar chart": px.bar,
+        "line chart": px.line,
+        "scatter plot": px.scatter,
+        "scatter matrix": px.scatter_matrix,
+        "pie chart":px.pie,
+        "timeline":px.timeline
+}
+
 # Main class
 
 @widgets.register
@@ -94,31 +104,14 @@ class ZivizWidget(widgets.DOMWidget):
             vals = self.get_val(viz_specs, k, viz_types[v_type][k]=="%axis_selector") 
             args[k] = vals
         # refactor. Use function object
-        if v_type=="histogram":
-            self.viz = px.histogram(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="histogram", viz_params=ser_args(args) )
-            return
-        if v_type=="bar chart":
-            self.viz = px.bar(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="bar", viz_params=ser_args(args) )
-            return
-        if v_type=="line chart":
-            self.viz = px.line(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="line", viz_params=ser_args(args) )
-            return
-        if v_type=="scatter plot":
-            self.viz = px.scatter(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="scatter", viz_params=ser_args(args) )
-            return
+        f = viz_lookup[v_type]
+
+        args_str = ser_args(args)
         if v_type=="scatter matrix":
-            self.viz = px.scatter_matrix(self.df, dimensions=self.df.columns, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="scatter_matrix", viz_params="dimensions=df.columns, " + ser_args(args) )
-            return
-        if v_type=="pie chart":
-            self.viz = px.pie(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="pie", viz_params=ser_args(args) )
-            return
-        if v_type=="timeline":
-            self.viz = px.timeline(self.df, **args ).to_html(**self.inc)
-            self.viz_code = self.viz_code_template.format(viz_name="timeline", viz_params=ser_args(args) )
-            return
+            args["dimensions"]=self.df.columns
+            args_str= "dimensions=df.columns, " + args_str
+
+        self.viz = f(self.df, **args ).to_html(**self.inc)
+        self.viz_code = self.viz_code_template.format(viz_name=f.__name__, viz_params=args_str )
+
+        return
