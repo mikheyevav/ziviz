@@ -1,2 +1,9 @@
+build
+dist
 **.lock
 **/package-lock.json
+**/node_modules
+**/labextension
+**/nbextension
+**/__pycache__/
+*.egg-info
