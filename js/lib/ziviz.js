@@ -4,12 +4,18 @@ var $ = require("jquery")
 let init_module = require("./init.js");
 const viz_types = require("./viz_types.js");
 
-let create_selector_from_array = function (ar){
-  let s = $('<select>')
-  s.addClass("ziviz_observe")
+let create_selector_from_array = function (ar, selected_item=undefined){
+  let s = document.createElement('select');
+  s.classList.add("ziviz_observe");
   ar.forEach(
     function(el){
-      $("<option>").attr("value",el).html(el).appendTo(s)
+      let o = document.createElement('option');
+      o.setAttribute("value",el);
+      o.innerHTML = el;
+      if(el==selected_item){
+        o.setAttribute("selected",true);
+      }
+      s.appendChild(o);
     }
   )
   return s
@@ -17,16 +23,16 @@ let create_selector_from_array = function (ar){
 
 let update_header = function (el, model) {
   let axis_list = model.get("axis_options");
-  let viz_type_el = $(el).find("[data-ziviz_type='viz_type']")[0];
+  let viz_type_el = el.querySelectorAll("[data-ziviz_type='viz_type']")[0];
   let cur_viz_type = viz_type_el.value;
   let available_options = viz_types[cur_viz_type];
   let avail_opts_keys = Array.from(viz_types[cur_viz_type].keys());
 
   // Remove those that are impossible
-  $(el).find("div.ziviz_option_container").each( function() {
-    let opt = $(this).find("select").first()[0].dataset.ziviz_type;
+  el.querySelectorAll("div.ziviz_option_container").forEach( function(i) {
+    let opt = i.querySelectorAll("select")[0].dataset.ziviz_type;
     if(!(avail_opts_keys.includes(opt))){
-      this.remove();
+      i.remove();
     }
   });
 
@@ -37,69 +43,88 @@ let update_header = function (el, model) {
     let prev_opt = (k==0? null : avail_opts_keys[k-1] );
     if ($(el).find("[data-ziviz_type='"+opt_name+"']").length==0 ){
       // Create element
-      let option_container = $("<div>")
-        .addClass("ziviz_option_container")
-        .css("display","inline")
-        .css("margin-right", "5px")
-        .css("margin-top", "2px")
-        .css("margin-bottom", "2px")
-        .append(opt_name+":");
+      let option_container = document.createElement('div');
+      option_container.classList.add("ziviz_option_container");
+      option_container.style.display="inline";
+      option_container.style.marginRight="5px";
+      option_container.style.marginTop="2px";
+      option_container.style.marginBottom="2px";
+      option_container.appendChild(document.createTextNode(opt_name+":"));
 
       var arr= ( (opt_vals==="%axis_selector") ? axis_list : opt_vals )
-      var col_selector = create_selector_from_array(arr) 
-        .attr("data-ziviz_type", opt_name)
-        .on('change', {el:el, model:model}, selection_changed_cb )
-        .appendTo(option_container); 
+      let col_selector = create_selector_from_array(arr) 
+      col_selector.setAttribute("data-ziviz_type",opt_name);
+      col_selector.style.marginBottom="5px";
+      col_selector.style.marginLeft="3px";
+      col_selector.addEventListener('change', function (){
+        selection_changed_cb(el, model);
+      });
+      option_container.appendChild(col_selector);
+
       var prev_el = null;
       if (prev_opt != null){
-        prev_el = $(el).find("[data-ziviz_type='"+prev_opt+"']")[0].parentNode;
+        prev_el = el.querySelectorAll("[data-ziviz_type='"+prev_opt+"']")[0]
+        if(prev_el===undefined){
+          prev_el = null;
+        } else {
+          prev_el = prev_el.parentNode;
+        }
       }
-      prev_el == null ? option_container.prependTo($(el).find(".ziviz_options").first()[0] ) : option_container.insertAfter(prev_el);
+      prev_el == null ?  el.querySelectorAll(".ziviz_options")[0].prepend( option_container ) : prev_el.parentNode.insertBefore(option_container, prev_el.nextSibling);
     }
   }
 }
 
-let selection_changed_cb = function( e ) {
-  $(e.data.el).find("div.ziviz_canvas").empty();
-  update_header( e.data.el, e.data.model );
-  let viz = {"v": Array.from( $(e.data.el).find(".ziviz_observe") , (i) => ({"id":i.dataset.ziviz_type, "val": i.value} ) ) };
-  e.data.model.set("viz_params",viz);
-  e.data.model.save_changes();
+let selection_changed_cb = function( el, model ) {
+  $(el).find("div.ziviz_canvas").empty();
+  update_header( el, model );
+  let viz = {"v": Array.from( $(el).find(".ziviz_observe") , (i) => ({"id":i.dataset.ziviz_type, "val": i.value} ) ) };
+  model.set("viz_params",viz);
+  model.save_changes();
 }
 
-let get_source_cb = function( e ) {
-  $(e.data.el).find("div.ziviz_canvas")
+let get_source_cb = function( el, model ) {
+  $(el).find("div.ziviz_canvas")
     .empty()
-    .html(e.data.model.get("viz_code"));
+    .html(model.get("viz_code"));
 }
-// This function is called only once on widget initialisation
+
 let get_header_html = function (el, model) {
-  let header = $("<div>")
-    .addClass("ziviz_header")
-    .css("display","block");
+  let header = document.createElement('div');
+  header.classList.add("ziviz_header");
+  header.style.display="block";
+  header.style.paddingBottom="5px";
 
   let viz_type = create_selector_from_array(Object.keys(viz_types));
-  viz_type.attr("data-ziviz_type", "viz_type")
-    .css("margin-right", "5px")
-    .appendTo(header)
-    .on('change', {el:el, model:model}, selection_changed_cb );
-  $("<button>")
-    .html("Source code")
-    .appendTo(header)
-    .on('click', {el:el, model:model}, get_source_cb );
+  viz_type.setAttribute("data-ziviz_type","viz_type");
+  viz_type.style.marginRight="5px";
 
-  header.appendTo(el);
+  viz_type.addEventListener('change', function (){
+    selection_changed_cb(el, model);
+  });
+  header.appendChild(viz_type);
 
-  $("<div>")
-    .addClass("ziviz_options")
-    .css("display","block")
-    .appendTo(el);
+  let b = document.createElement("button");
+  b.innerHTML = "Source code";
+  b.addEventListener('click', function (){
+    get_source_cb(el, model);
+  });
+  header.appendChild(b);
 
+  el.appendChild(header);
+
+  let d1 = document.createElement('div');
+  d1.classList.add("ziviz_options");
+  d1.style.display="block";
+  d1.style.paddingBottom="5px";
+  el.appendChild(d1);
 
   update_header( el, model );
-  $("<div>")
-    .addClass("ziviz_canvas")
-    .appendTo(el);
+  
+  let d2 = document.createElement('div');
+  d2.classList.add("ziviz_canvas");
+  el.appendChild(d2);
+
 }
 
 var ZivizModel = widgets.DOMWidgetModel.extend({

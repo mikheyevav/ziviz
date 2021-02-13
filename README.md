@@ -7,14 +7,12 @@ Exploratory data analysis tool for Jupyter. Ziviz supports both Jupyter lab and 
 
 Installation
 ------------
-1.
-    $ pip install ziviz
+$ pip install ziviz
 
-2. 
-  For jupyter lab:
-   $ jupyter labextension install jupyterlab-plotly
+Usage
+-----
+from ziviz import ZivizWidget
 
-  For jupyter notebook:
-    $ jupyter nbextension install --py --sys-prefix ziviz
+ZivizWidget(pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv'))
 
 

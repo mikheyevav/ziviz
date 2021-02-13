@@ -103,7 +103,7 @@ class ZivizWidget(widgets.DOMWidget):
         for k in viz_types[v_type].keys():
             vals = self.get_val(viz_specs, k, viz_types[v_type][k]=="%axis_selector") 
             args[k] = vals
-        # refactor. Use function object
+
         f = viz_lookup[v_type]
 
         args_str = ser_args(args)
