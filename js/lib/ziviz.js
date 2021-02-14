@@ -1,5 +1,4 @@
 var widgets = require('@jupyter-widgets/base');
-var $ = require("jquery")
 
 let init_module = require("./init.js");
 const viz_types = require("./viz_types.js");
@@ -23,14 +22,14 @@ let create_selector_from_array = function (ar, selected_item=undefined){
 
 let update_header = function (el, model) {
   let axis_list = model.get("axis_options");
-  let viz_type_el = el.querySelectorAll("[data-ziviz_type='viz_type']")[0];
+  let viz_type_el = el.querySelector("[data-ziviz_type='viz_type']");
   let cur_viz_type = viz_type_el.value;
   let available_options = viz_types[cur_viz_type];
   let avail_opts_keys = Array.from(viz_types[cur_viz_type].keys());
 
   // Remove those that are impossible
   el.querySelectorAll("div.ziviz_option_container").forEach( function(i) {
-    let opt = i.querySelectorAll("select")[0].dataset.ziviz_type;
+    let opt = i.querySelector("select").dataset.ziviz_type;
     if(!(avail_opts_keys.includes(opt))){
       i.remove();
     }
@@ -41,7 +40,7 @@ let update_header = function (el, model) {
     let opt_name = avail_opts_keys[k];
     let opt_vals = available_options.get(opt_name) ;
     let prev_opt = (k==0? null : avail_opts_keys[k-1] );
-    if ($(el).find("[data-ziviz_type='"+opt_name+"']").length==0 ){
+    if (el.querySelectorAll("[data-ziviz_type='"+opt_name+"']").length==0 ){
       // Create element
       let option_container = document.createElement('div');
       option_container.classList.add("ziviz_option_container");
@@ -63,30 +62,30 @@ let update_header = function (el, model) {
 
       var prev_el = null;
       if (prev_opt != null){
-        prev_el = el.querySelectorAll("[data-ziviz_type='"+prev_opt+"']")[0]
+        prev_el = el.querySelector("[data-ziviz_type='"+prev_opt+"']")
         if(prev_el===undefined){
           prev_el = null;
         } else {
           prev_el = prev_el.parentNode;
         }
       }
-      prev_el == null ?  el.querySelectorAll(".ziviz_options")[0].prepend( option_container ) : prev_el.parentNode.insertBefore(option_container, prev_el.nextSibling);
+      prev_el == null ?  el.querySelector(".ziviz_options").prepend( option_container ) : prev_el.parentNode.insertBefore(option_container, prev_el.nextSibling);
     }
   }
 }
 
 let selection_changed_cb = function( el, model ) {
-  $(el).find("div.ziviz_canvas").empty();
+  let canv = el.querySelector("div.ziviz_canvas");
+  canv.innerHTML="";
   update_header( el, model );
-  let viz = {"v": Array.from( $(el).find(".ziviz_observe") , (i) => ({"id":i.dataset.ziviz_type, "val": i.value} ) ) };
+  let viz = {"v": Array.from( el.querySelectorAll(".ziviz_observe") , (i) => ({"id":i.dataset.ziviz_type, "val": i.value}) ) };
   model.set("viz_params",viz);
   model.save_changes();
 }
 
 let get_source_cb = function( el, model ) {
-  $(el).find("div.ziviz_canvas")
-    .empty()
-    .html(model.get("viz_code"));
+  let canv = el.querySelector("div.ziviz_canvas");
+  canv.innerHTML=model.get("viz_code");
 }
 
 let get_header_html = function (el, model) {
@@ -149,9 +148,9 @@ var ZivizView = widgets.DOMWidgetView.extend({
 
   viz_changed: function() {
     let s = this.model.get('viz');
-    let canv = $(this.el).find(".ziviz_canvas");
-    canv.empty();
-    $(s).appendTo( canv );
+    let canv = this.el.querySelector(".ziviz_canvas");
+    canv.innerHTML=s;
+    eval(canv.querySelector("script").firstChild.textContent);
   }
 });
 
