@@ -150,7 +150,9 @@ var ZivizView = widgets.DOMWidgetView.extend({
     let s = this.model.get('viz');
     let canv = this.el.querySelector(".ziviz_canvas");
     canv.innerHTML=s;
-    eval(canv.querySelector("script").firstChild.textContent);
+    canv.querySelectorAll("script").forEach( function(i) {
+      eval(i.textContent);
+    })
   }
 });
 
