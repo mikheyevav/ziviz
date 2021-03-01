@@ -26,6 +26,7 @@ let update_header = function (el, model) {
   let cur_viz_type = viz_type_el.value;
   let available_options = viz_types[cur_viz_type];
   let avail_opts_keys = Array.from(viz_types[cur_viz_type].keys());
+  let viz_params = new Map( model.get("viz_params")?.v?.map(i => [i.id, i.val]));
 
   // Remove those that are impossible
   el.querySelectorAll("div.ziviz_option_container").forEach( function(i) {
@@ -44,17 +45,11 @@ let update_header = function (el, model) {
       // Create element
       let option_container = document.createElement('div');
       option_container.classList.add("ziviz_option_container");
-      option_container.style.display="inline";
-      option_container.style.marginRight="5px";
-      option_container.style.marginTop="2px";
-      option_container.style.marginBottom="2px";
       option_container.appendChild(document.createTextNode(opt_name+":"));
 
       var arr= ( (opt_vals==="%axis_selector") ? axis_list : opt_vals )
-      let col_selector = create_selector_from_array(arr) 
+      let col_selector = create_selector_from_array(arr, viz_params?.get(opt_name));
       col_selector.setAttribute("data-ziviz_type",opt_name);
-      col_selector.style.marginBottom="5px";
-      col_selector.style.marginLeft="3px";
       col_selector.addEventListener('change', function (){
         selection_changed_cb(el, model);
       });
@@ -89,14 +84,15 @@ let get_source_cb = function( el, model ) {
 }
 
 let get_header_html = function (el, model) {
+  
+  let viz_params = new Map( model.get("viz_params")?.v?.map(i => [i.id, i.val]));
+
   let header = document.createElement('div');
   header.classList.add("ziviz_header");
-  header.style.display="block";
-  header.style.paddingBottom="5px";
 
-  let viz_type = create_selector_from_array(Object.keys(viz_types));
+  let viz_type = create_selector_from_array(Object.keys(viz_types), viz_params?.get("viz_type") );
   viz_type.setAttribute("data-ziviz_type","viz_type");
-  viz_type.style.marginRight="5px";
+  viz_type.classList.add("ziviz_viz_type");
 
   viz_type.addEventListener('change', function (){
     selection_changed_cb(el, model);
@@ -114,8 +110,6 @@ let get_header_html = function (el, model) {
 
   let d1 = document.createElement('div');
   d1.classList.add("ziviz_options");
-  d1.style.display="block";
-  d1.style.paddingBottom="5px";
   el.appendChild(d1);
 
   update_header( el, model );
@@ -140,10 +134,35 @@ var ZivizModel = widgets.DOMWidgetModel.extend({
 
 var ZivizView = widgets.DOMWidgetView.extend({
 
-  render: function() {
+  render: function() { 
+    // return if there is one registered callback
+    
+    if (this.model._events["change:viz"]){
+      if (this.model._events["change:viz"].length>0){
+      this.el.innerHTML="Only one view per widget is allowed.";
+      return;
+      }
+    }
+
+
     init_module.inject_js(this.model);
     get_header_html(this.el, this.model);
     this.model.on('change:viz', this.viz_changed, this);
+
+    if ( this.model.get("viz_params")?.v?.length > 0 ){
+      let viz = Object.assign({},this.model.get("viz_params")) ;
+      if (viz?.n){
+        viz["n"]++;
+      } 
+      else {
+        viz["n"]=1;
+      }
+
+      this.model.set("viz_params",viz);
+      this.model.save_changes();
+    }
+
+    
   },
 
   viz_changed: function() {

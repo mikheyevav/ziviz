@@ -1,0 +1,12 @@
+v0.1.4
+ * DataFrame update mechanics
+ * remove jQuery dependency
+ * Add box visualisation
+v0.1.3
+ * Jupyter Lab 3 support
+ * New visualisations
+v0.1.2
+ * Refactoring
+ * New visualisations
+v0.1.1
+ * Initial support for lab

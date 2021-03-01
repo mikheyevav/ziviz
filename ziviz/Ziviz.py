@@ -26,9 +26,11 @@ def ser_args(d: dict)->str:
 ### init 
 
 viz_types = load_viz()
+viz_code_template = "<code>import plotly.express as px<br/>px.{viz_name}(df, {viz_params})</code>"
 
 viz_lookup = {
         "histogram": px.histogram,
+        "box": px.box,
         "bar chart": px.bar,
         "line chart": px.line,
         "scatter plot": px.scatter,
@@ -54,19 +56,10 @@ class ZivizWidget(widgets.DOMWidget):
     _view_module = Unicode('ziviz').tag(sync=True)
     _model_module = Unicode('ziviz').tag(sync=True)
 
-    _view_module_version = Unicode('^0.1.3').tag(sync=True)
-    _model_module_version = Unicode('^0.1.3').tag(sync=True)
+    _view_module_version = Unicode('^0.1.4').tag(sync=True)
+    _model_module_version = Unicode('^0.1.4').tag(sync=True)
 
-
-    def __init__(self, arg):
-        assert(type(arg)==pd.DataFrame)
-        super().__init__()
-        self.df = arg
-        self.axis_options = ["None", "index"] + list(arg.columns)
-        self.inc = {"full_html": False}
-        self.viz_code_template = "<code>import plotly.express as px<br/>px.{viz_name}(df, {viz_params})</code>"
-
-    def get_val(self, inp: list, t:str, axis=True)->str:
+    def __get_val(self, inp: list, t:str, axis=True)->str:
         l = [i["val"] for i in inp if i["id"]==t]
         if len(l)>0:
             if axis:
@@ -81,6 +74,17 @@ class ZivizWidget(widgets.DOMWidget):
                 return l[0] if l[0]!="" else None
         else:
             return ""
+
+    def __init__(self, arg: pd.DataFrame):
+        assert(type(arg)==pd.DataFrame)
+        super().__init__()
+        self.df = arg
+        self.axis_options = ["None", "index"] + list(arg.columns)
+        self.inc = {"full_html": False}
+   
+    def update_df(self, arg: pd.DataFrame):
+        self.df = arg
+        self.axis_options = ["None", "index"] + list(arg.columns)
 
     @observe("plotly_js_req")
     def _observe_plotly_js_req(self, change):
@@ -98,10 +102,10 @@ class ZivizWidget(widgets.DOMWidget):
     @observe("viz_params")
     def _observe_viz_params(self, change):
         viz_specs = change["new"]["v"]
-        v_type = self.get_val(viz_specs, "viz_type", axis=False)
+        v_type = self.__get_val(viz_specs, "viz_type", axis=False)
         args = {}
         for k in viz_types[v_type].keys():
-            vals = self.get_val(viz_specs, k, viz_types[v_type][k]=="%axis_selector") 
+            vals = self.__get_val(viz_specs, k, viz_types[v_type][k]=="%axis_selector") 
             args[k] = vals
 
         f = viz_lookup[v_type]
@@ -112,6 +116,6 @@ class ZivizWidget(widgets.DOMWidget):
             args_str= "dimensions=df.columns, " + args_str
 
         self.viz = f(self.df, **args ).to_html(**self.inc)
-        self.viz_code = self.viz_code_template.format(viz_name=f.__name__, viz_params=args_str )
+        self.viz_code = viz_code_template.format(viz_name=f.__name__, viz_params=args_str )
 
         return

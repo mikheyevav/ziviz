@@ -1,9 +1,11 @@
 {
   "name": "ziviz",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Ziviz",
   "author": "mikheyevav",
   "main": "lib/index.js",
+  "style": "style/index.css",
+  "styleModule": "style/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mikheyevav/ziviz.git"
@@ -15,9 +17,12 @@
     "jupyterlab-extension"
   ],
   "files": [
-    "lib/**/*.js",
-    "lib/**/*.json",
-    "dist/*.js"
+    "lib/**/*.{js,.json}",
+    "style/**/*.{css,.js}"
+  ],
+  "sideEffects": [
+    "style/*.css",
+    "style/index.js"
   ],
   "scripts": {
     "clean": "rimraf dist/ && rimraf ../ziviz/labextension/ && rimraf ../ziviz/nbextension",

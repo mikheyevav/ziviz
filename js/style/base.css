@@ -1,0 +1,26 @@
+.ziviz_header {
+  display: block;
+  padding-bottom: 5px;
+}
+
+.ziviz_viz_type {
+  margin-right: 5px;
+}
+
+.ziviz_option_container {
+  display: inline;
+  margin-top: 2px;
+  margin-right: 5px;
+  margin-bottom: 2px;
+}
+
+.ziviz_option_container select{
+  margin-bottom: 5px;
+  margin-left: 3px;
+}
+
+
+.ziviz_options {
+  display: block;
+  padding-bottom: 5px;
+}
