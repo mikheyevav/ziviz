@@ -2,9 +2,23 @@
   "histogram": {
     "x": "%axis_selector",
     "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
     "histnorm": ["", "percent", "probability", "density", "probability density"],
     "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
     "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+  },
+  "box": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
+    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ],
+    "orientation": ["", "h", "v"],
+    "boxmode": ["", "group", "overlay"],
+    "points": ["", "outliers", "suspectedoutliers", "all"],
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
   },
   "bar chart": {
     "x": "%axis_selector",
