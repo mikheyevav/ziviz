@@ -1,3 +1,8 @@
+v0.1.5
+ * Added S-curve and density heatmap
+ * Added pattern shape parameter to histogram and bar chart
+ * Added barmode parameter to histogram
+ * Heavy refactoring of viz_types.json
 v0.1.4
  * DataFrame update mechanics
  * remove jQuery dependency

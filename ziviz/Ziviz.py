@@ -18,6 +18,12 @@ def load_viz():
     with open(f, 'r') as myfile:
       data=myfile.read()
     obj = json.loads(data)
+    commons = obj.pop("_common_options")
+    for i in obj.keys():
+        if "_common_options" in obj[i]:
+            for j in obj[i].pop("_common_options"):
+                obj[i][j]=commons[j]
+
     return obj
 
 def ser_args(d: dict)->str:
@@ -35,8 +41,10 @@ viz_lookup = {
         "line chart": px.line,
         "scatter plot": px.scatter,
         "scatter matrix": px.scatter_matrix,
-        "pie chart":px.pie,
-        "timeline":px.timeline
+        "pie chart": px.pie,
+        "timeline": px.timeline,
+        "S-curve": px.ecdf,
+        "heatmap": px.density_heatmap
 }
 
 # Main class
@@ -56,8 +64,8 @@ class ZivizWidget(widgets.DOMWidget):
     _view_module = Unicode('ziviz').tag(sync=True)
     _model_module = Unicode('ziviz').tag(sync=True)
 
-    _view_module_version = Unicode('^0.1.4').tag(sync=True)
-    _model_module_version = Unicode('^0.1.4').tag(sync=True)
+    _view_module_version = Unicode('^0.1.5').tag(sync=True)
+    _model_module_version = Unicode('^0.1.5').tag(sync=True)
 
     def __get_val(self, inp: list, t:str, axis=True)->str:
         l = [i["val"] for i in inp if i["id"]==t]

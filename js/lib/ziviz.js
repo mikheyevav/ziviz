@@ -126,8 +126,8 @@ var ZivizModel = widgets.DOMWidgetModel.extend({
         _view_name : 'ZivizView',
         _model_module : 'ziviz',
         _view_module : 'ziviz',
-        _model_module_version : '0.1.3',
-        _view_module_version : '0.1.3'
+        _model_module_version : '0.1.5',
+        _view_module_version : '0.1.5'
     })
 });
 
@@ -143,7 +143,6 @@ var ZivizView = widgets.DOMWidgetView.extend({
       return;
       }
     }
-
 
     init_module.inject_js(this.model);
     get_header_html(this.el, this.model);

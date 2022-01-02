@@ -1,6 +1,6 @@
 {
   "name": "ziviz",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Ziviz",
   "author": "mikheyevav",
   "main": "lib/index.js",
@@ -17,8 +17,8 @@
     "jupyterlab-extension"
   ],
   "files": [
-    "lib/**/*.{js,.json}",
-    "style/**/*.{css,.js}"
+    "lib/**/*.{js,json}",
+    "style/**/*.{css,js}"
   ],
   "sideEffects": [
     "style/*.css",

@@ -1,4 +1,4 @@
-Ziviz
+## Ziviz
 
 Exploratory data analysis tool for Jupyter. Ziviz supports both Jupyter lab and notebook. It is based on [Plotly](https://plotly.com) library.
 
@@ -11,8 +11,10 @@ $ pip install ziviz
 
 Usage
 -----
+
+```python
 from ziviz import ZivizWidget
 
-ZivizWidget(pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv'))
-
-
+df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv')
+ZivizWidget(df)
+```

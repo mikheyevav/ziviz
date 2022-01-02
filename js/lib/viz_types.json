@@ -1,12 +1,19 @@
 {
+  "_common_options":{
+    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
+    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ],
+    "color_continuous_scale": ["","aggrnyl","agsunset","blackbody","bluered","blues","blugrn","bluyl","brwnyl","bugn","bupu","burg","burgyl","cividis","darkmint","electric","emrld","gnbu","greens","greys","hot","inferno","jet","magenta","magma","mint","orrd","oranges","oryel","peach","pinkyl","plasma","plotly3","pubu","pubugn","purd","purp","purples","purpor","rainbow","rdbu","rdpu","redor","reds","sunset","sunsetdark","teal","tealgrn","turbo","viridis","ylgn","ylgnbu","ylorbr","ylorrd","algae","amp","deep","dense","gray","haline","ice","matter","solar","speed","tempo","thermal","turbid","armyrose","brbg","earth","fall","geyser","prgn","piyg","picnic","portland","puor","rdgy","rdylbu","rdylgn","spectral","tealrose","temps","tropic","balance","curl","delta","oxy","edge", "hsv","icefire","phase","twilight","mrybm","mygbm"]
+  },
   "histogram": {
     "x": "%axis_selector",
+    "pattern_shape": "%axis_selector",
     "color": "%axis_selector",
     "facet_row": "%axis_selector",
     "facet_col": "%axis_selector",
+    "orientation": ["", "h", "v"],
     "histnorm": ["", "percent", "probability", "density", "probability density"],
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "barmode": ["", "relative", "group", "overlay"],
+    "_common_options": ["template", "color_discrete_sequence"]
   },
   "box": {
     "x": "%axis_selector",
@@ -14,24 +21,22 @@
     "color": "%axis_selector",
     "facet_row": "%axis_selector",
     "facet_col": "%axis_selector",
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ],
+    "_common_options": ["template", "color_discrete_sequence"],
     "orientation": ["", "h", "v"],
     "boxmode": ["", "group", "overlay"],
-    "points": ["", "outliers", "suspectedoutliers", "all"],
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ]
+    "points": ["", "outliers", "suspectedoutliers", "all"]
   },
   "bar chart": {
     "x": "%axis_selector",
     "y": "%axis_selector",
     "color": "%axis_selector",
+    "pattern_shape": "%axis_selector",
     "facet_row": "%axis_selector",
     "facet_col": "%axis_selector",
     "base": "%axis_selector",
     "orientation": ["", "h", "v"],
     "barmode": ["", "group", "overlay", "relative"],
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_continuous_scale": ["","aggrnyl","agsunset","blackbody","bluered","blues","blugrn","bluyl","brwnyl","bugn","bupu","burg","burgyl","cividis","darkmint","electric","emrld","gnbu","greens","greys","hot","inferno","jet","magenta","magma","mint","orrd","oranges","oryel","peach","pinkyl","plasma","plotly3","pubu","pubugn","purd","purp","purples","purpor","rainbow","rdbu","rdpu","redor","reds","sunset","sunsetdark","teal","tealgrn","turbo","viridis","ylgn","ylgnbu","ylorbr","ylorrd","algae","amp","deep","dense","gray","haline","ice","matter","solar","speed","tempo","thermal","turbid","armyrose","brbg","earth","fall","geyser","prgn","piyg","picnic","portland","puor","rdgy","rdylbu","rdylgn","spectral","tealrose","temps","tropic","balance","curl","delta","oxy","edge", "hsv","icefire","phase","twilight","mrybm","mygbm"],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_continuous_scale", "color_discrete_sequence"]
   },
   "line chart": {
     "x": "%axis_selector",
@@ -42,8 +47,7 @@
     "line_dash": "%axis_selector",
     "orientation": ["", "h", "v"],
     "line_shape": ["", "linear", "spline"],
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_discrete_sequence"]
   },
   "scatter plot": {
     "x": "%axis_selector",
@@ -56,22 +60,17 @@
     "marginal_x": ["", "rug", "box", "violin", "histogram"],
     "marginal_y": ["", "rug", "box", "violin", "histogram"],
     "trendline": ["", "ols", "lowess"], 
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_continuous_scale": ["","aggrnyl","agsunset","blackbody","bluered","blues","blugrn","bluyl","brwnyl","bugn","bupu","burg","burgyl","cividis","darkmint","electric","emrld","gnbu","greens","greys","hot","inferno","jet","magenta","magma","mint","orrd","oranges","oryel","peach","pinkyl","plasma","plotly3","pubu","pubugn","purd","purp","purples","purpor","rainbow","rdbu","rdpu","redor","reds","sunset","sunsetdark","teal","tealgrn","turbo","viridis","ylgn","ylgnbu","ylorbr","ylorrd","algae","amp","deep","dense","gray","haline","ice","matter","solar","speed","tempo","thermal","turbid","armyrose","brbg","earth","fall","geyser","prgn","piyg","picnic","portland","puor","rdgy","rdylbu","rdylgn","spectral","tealrose","temps","tropic","balance","curl","delta","oxy","edge", "hsv","icefire","phase","twilight","mrybm","mygbm"],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_continuous_scale", "color_discrete_sequence"]
   },
   "scatter matrix": {
     "color": "%axis_selector",
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_continuous_scale": ["","aggrnyl","agsunset","blackbody","bluered","blues","blugrn","bluyl","brwnyl","bugn","bupu","burg","burgyl","cividis","darkmint","electric","emrld","gnbu","greens","greys","hot","inferno","jet","magenta","magma","mint","orrd","oranges","oryel","peach","pinkyl","plasma","plotly3","pubu","pubugn","purd","purp","purples","purpor","rainbow","rdbu","rdpu","redor","reds","sunset","sunsetdark","teal","tealgrn","turbo","viridis","ylgn","ylgnbu","ylorbr","ylorrd","algae","amp","deep","dense","gray","haline","ice","matter","solar","speed","tempo","thermal","turbid","armyrose","brbg","earth","fall","geyser","prgn","piyg","picnic","portland","puor","rdgy","rdylbu","rdylgn","spectral","tealrose","temps","tropic","balance","curl","delta","oxy","edge", "hsv","icefire","phase","twilight","mrybm","mygbm"],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_continuous_scale", "color_discrete_sequence"]
   },
   "pie chart": {
     "values": "%axis_selector",
     "names": "%axis_selector",
     "color": "%axis_selector",
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_discrete_sequence"]
   },
   "timeline": {
     "x_start": "%axis_selector",
@@ -80,8 +79,27 @@
     "color": "%axis_selector",
     "facet_row": "%axis_selector",
     "facet_col": "%axis_selector",
-    "template":  ["", "ggplot2", "seaborn", "simple_white", "plotly", "plotly_white", "plotly_dark", "presentation", "xgridoff", "ygridoff", "gridon" ],
-    "color_continuous_scale": ["","aggrnyl","agsunset","blackbody","bluered","blues","blugrn","bluyl","brwnyl","bugn","bupu","burg","burgyl","cividis","darkmint","electric","emrld","gnbu","greens","greys","hot","inferno","jet","magenta","magma","mint","orrd","oranges","oryel","peach","pinkyl","plasma","plotly3","pubu","pubugn","purd","purp","purples","purpor","rainbow","rdbu","rdpu","redor","reds","sunset","sunsetdark","teal","tealgrn","turbo","viridis","ylgn","ylgnbu","ylorbr","ylorrd","algae","amp","deep","dense","gray","haline","ice","matter","solar","speed","tempo","thermal","turbid","armyrose","brbg","earth","fall","geyser","prgn","piyg","picnic","portland","puor","rdgy","rdylbu","rdylgn","spectral","tealrose","temps","tropic","balance","curl","delta","oxy","edge", "hsv","icefire","phase","twilight","mrybm","mygbm"],
-    "color_discrete_sequence": ["", "Alphabet", "Antique", "Bold", "D3", "Dark2", "Dark24", "G10", "Light24", "Pastel", "Pastel1", "Pastel2", "Plotly", "Prism", "Safe", "Set1", "Set2", "Set3", "T10", "Vivid" ]
+    "_common_options": ["template", "color_continuous_scale", "color_discrete_sequence"]
+  },
+  "S-curve": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "color": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
+    "ecdfnorm": ["", "percent", "probability"],
+    "ecdfmode": ["", "standard", "complementary", "reversed"],
+    "_common_options": ["template", "color_discrete_sequence"]
+  },
+  "heatmap": {
+    "x": "%axis_selector",
+    "y": "%axis_selector",
+    "z": "%axis_selector",
+    "facet_row": "%axis_selector",
+    "facet_col": "%axis_selector",
+    "orientation": ["", "h", "v"],
+    "histnorm": ["", "percent", "probability", "density", "probability density"],
+    "histfunc": ["", "count", "sum", "avg", "min", "max"],
+    "_common_options": ["template", "color_continuous_scale" ]
   }
 }
